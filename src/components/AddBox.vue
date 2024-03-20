@@ -11,11 +11,11 @@
         <div class="titleContainer">
             <p class='title'>Title</p>
         </div>
-        <input ref="title" type="text">
+        <input maxlength="150" ref="title" type="text">
         <div class="titleContainer">
             <p>Description</p>
         </div>
-        <textarea class="descr" ref="descr" type="text"></textarea>
+        <textarea maxlength="300" class="descr" ref="descr" type="text"></textarea>
         <select ref="select" name="day">
             <option value="6">Saturday</option>
             <option value="7">Sunday</option>

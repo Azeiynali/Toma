@@ -1,36 +1,59 @@
 <template>
 	<div class="main" id="app">
-		<TodoList @addTodoModel="addTodoModel" :firstName="firstName" @removeTodo="removeTodo($event)"
+		<TodoList v-if="firstName" @addTodoModel="addTodoModel" :firstName="firstName"
 			@changeStatus="changeStatus($event)" :todos="todos" />
-		<AddBox @addTodo="addTodo" ref="AddBox" />
+		<AddBox v-if="firstName" @addTodo="addTodo" ref="AddBox" />
+		<LoginBox @deleteLogin="deleteLogin" v-if="!loginShow" @changeName="changeName" />
 	</div>
 </template>
 
 <script>
+function getCookie() {
+	try {
+		const docCookies = document.cookie;
+		const cookiePairs = docCookies.split(";");
+		const cookies = {};
+
+		for (const cookiePair of cookiePairs) {
+			const [name, value] = cookiePair.split("=");
+			cookies[name] = value;
+		}
+
+		var webData = cookies['data']
+		webData = JSON.parse(webData);
+	}
+	catch {
+		webData = { name: "", todos: [] }
+	}
+
+	console.log(webData);
+	return webData
+}
+
+
 import TodoList from './components/TodoList.vue'
 import AddBox from './components/AddBox.vue'
+import LoginBox from './components/LoginBox.vue'
 
 export default {
 	name: 'App',
 	components: {
 		TodoList,
-		AddBox
+		AddBox,
+		LoginBox
 	},
 	data() {
 		return {
-			todos: [
-			],
-			firstName: "Ali",
+			todos: getCookie().todos,
+			firstName: getCookie().name,
+			loginShow: Boolean(getCookie().name)
 		}
 	},
 	methods: {
-		removeTodo(todoId) {
-			let todoIndex = this.todos.findIndex(todo => todo.id == todoId)
-			this.todos.splice(todoIndex, 1)
-		},
 		changeStatus(todoId) {
 			let todo = this.todos.find(todo => todo.id == todoId)
-			todo.isChecked = !todo.isChecked
+			this.todos.pop(todo)
+			this.setCookie()
 		},
 		addTodoModel() {
 			this.$refs.AddBox.show()
@@ -38,6 +61,19 @@ export default {
 		addTodo(todo) {
 			console.log(todo);
 			this.todos.push(todo)
+			this.setCookie()
+		},
+		setCookie() {
+			const cookie = JSON.stringify({ name: this.firstName, todos: this.todos });
+			document.cookie = `data=${cookie}`
+		},
+		changeName(name) {
+			this.firstName = name
+
+			this.setCookie()
+		},
+		deleteLogin() {
+			this.loginShow = true
 		}
 	}
 }
