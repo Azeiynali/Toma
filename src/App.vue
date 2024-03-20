@@ -1,6 +1,6 @@
 <template>
 	<div class="main" id="app">
-		<TodoList @removeTodo="removeTodo($event)" @changeStatus="changeStatus($event)" :todos="todos" />
+		<TodoList :firstName="firstName" @removeTodo="removeTodo($event)" @changeStatus="changeStatus($event)" :todos="todos" />
 	</div>
 </template>
 
@@ -15,8 +15,9 @@ export default {
 	data() {
 		return {
 			todos: [
-				{ name: "First Todo", description: 'this is First Todo', id: 1, isChecked: false, day: '2' },
-				{ name: "Second Todo", description: "this is second Todo", id: 2, isChecked: true, day: '1' }
+				{ name: "First Todo", description: 'this is First Todo', id: 1, isChecked: false, day: 'SA' },
+				{ name: "Second Todo", description: "this is second Todo", id: 2, isChecked: false, day: 'SU' },
+				{ name: "Third Todo", description: 'this is Third Todo', id: 3, isChecked: false, day: 'MO' },
 			],
 			firstName: "Ali",
 
@@ -44,7 +45,7 @@ export default {
 
 body {
 	background-color: #fff6d8;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 .main {
