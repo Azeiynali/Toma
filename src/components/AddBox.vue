@@ -16,7 +16,7 @@
             <p>Description</p>
         </div>
         <textarea class="descr" ref="descr" type="text"></textarea>
-        <select name="day">
+        <select ref="select" name="day">
             <option value="6">Saturday</option>
             <option value="7">Sunday</option>
             <option value="1">Monday</option>
@@ -25,11 +25,8 @@
             <option value="4">Thursday</option>
             <option value="5">Friday</option>
         </select>
-        <div class="line">
-            --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        </div>
         <div class="buttons">
-            <button>Add</button>
+            <button @click="add">Add</button>
             <button @click="hide" class="circle">></button>
         </div>
     </div>
@@ -129,6 +126,8 @@ select,
 option {
     font-size: 1rem;
     border-style: none;
+    border: 0px;
+    outline: 0px;
     font-weight: unset;
 }
 
@@ -171,14 +170,6 @@ button.circle {
     font-weight: 100;
 }
 
-.line {
-    width: 70%;
-    overflow: hidden;
-    height: 14px;
-    color: #2b80ff;
-    letter-spacing: 5px;
-}
-
 @keyframes open-select {
     from {
         transform: scaleY(0);
@@ -217,6 +208,36 @@ export default {
                     this.isShow = false
                 }, 750)
             }, 30)
+        },
+        generateID() {
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear().toString();
+            const currentMonth = (currentDate.getMonth() + 1).toString();
+            const currentDay = currentDate.getDate().toString();
+            const currentMinute = currentDate.getMinutes().toString();
+
+            return currentYear.charAt(0) + currentMinute.charAt(0) + currentDay.charAt(0) + currentMonth.charAt(0)
+        },
+        add() {
+            if (this.$refs.title.value && this.$refs.descr.value) {
+                const select = this.$refs.select
+                const value = select.value;
+                const option = select.querySelector(`option[value="${value}"]`);
+                const day = option.text;
+
+                console.log(this.$emit('addTodo', { 
+                    id: this.generateID(),
+                    name: this.$refs.title.value,
+                    description: this.$refs.descr.value,
+                    day: day.slice(0, 2).toUpperCase(),
+                    isChecked: false 
+                }))
+
+                this.$refs.title.value = ''
+                this.$refs.descr.value = ''
+
+                this.hide()
+            }
         }
     }
 }

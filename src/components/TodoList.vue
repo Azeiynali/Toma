@@ -42,7 +42,7 @@
             </div>
         </div>
         <!--  @click="removeTodo(todo.id)" -->
-        <div v-for="todo in todos" :key="todo.id" v-show="todo.day == day"
+        <div v-for='todo in todos.filter((todo) => todo.isChecked == false)' :key="todo.id" v-show="todo.day == day"
             :class="{ item: true, checked: todo.isChecked }">
             <div @click="changeStatus($event, todo.id)" :class="{ check: true, ed: todo.isChecked }"></div>
             <div class="content">
@@ -272,6 +272,8 @@ export default {
         },
         changeStatus(ev, todoId) {
             setTimeout(() => {
+                ev.target.parentNode.classList.add('checked')
+                ev.target.classList.add('ed')
                 ev.target.parentNode.style.transform = 'translateX(-5vw)';
                 setTimeout(() => {
                     ev.target.parentNode.style.transform = 'translateX(100vw)';
@@ -288,7 +290,7 @@ export default {
             ev.target.classList.add('active')
         },
         addTodo() {
-            this.$emit('addTodo')
+            this.$emit('addTodoModel')
         }
     }
 }

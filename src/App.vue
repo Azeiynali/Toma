@@ -1,8 +1,8 @@
 <template>
 	<div class="main" id="app">
-		<TodoList @addTodo="addTodoModel" :firstName="firstName" @removeTodo="removeTodo($event)"
+		<TodoList @addTodoModel="addTodoModel" :firstName="firstName" @removeTodo="removeTodo($event)"
 			@changeStatus="changeStatus($event)" :todos="todos" />
-		<AddBox ref="AddBox" />
+		<AddBox @addTodo="addTodo" ref="AddBox" />
 	</div>
 </template>
 
@@ -21,7 +21,6 @@ export default {
 			todos: [
 			],
 			firstName: "Ali",
-
 		}
 	},
 	methods: {
@@ -35,6 +34,10 @@ export default {
 		},
 		addTodoModel() {
 			this.$refs.AddBox.show()
+		},
+		addTodo(todo) {
+			console.log(todo);
+			this.todos.push(todo)
 		}
 	}
 }
