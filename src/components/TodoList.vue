@@ -53,6 +53,7 @@
         <div v-if="!todos.some(todo => todo.day == day && todo.isChecked == false)">
             <p>empty!</p>
         </div>
+        <div @click="addTodo" title="create todo" class="plusButton">+</div>
     </div>
 </template>
 
@@ -212,6 +213,35 @@ p {
     height: 20px;
 }
 
+.plusButton {
+    width: 50px;
+    height: 50px;
+    background-color: #3f7cff;
+    box-shadow: 4px 4px 6px #00000044;
+    border-radius: 100%;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-top: 5px;
+    cursor: pointer;
+    user-select: none;
+    transition: all .3s;
+}
+
+.plusButton:hover {
+    transform: scale(.9);
+}
+
+.plusButton:active{
+    box-shadow: none;
+    transform: translateY(2px) translateX(2px) scale(.9);
+}
+
 @keyframes move {
     from {
         transform: translateX(-200px);
@@ -256,6 +286,9 @@ export default {
             this.day = ev.target.innerText.slice(0, 2).toUpperCase()
             document.querySelector('.day.active').classList.remove('active')
             ev.target.classList.add('active')
+        },
+        addTodo() {
+            this.$emit('addTodo')
         }
     }
 }

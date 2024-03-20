@@ -1,23 +1,24 @@
 <template>
 	<div class="main" id="app">
-		<TodoList :firstName="firstName" @removeTodo="removeTodo($event)" @changeStatus="changeStatus($event)" :todos="todos" />
+		<TodoList @addTodo="addTodoModel" :firstName="firstName" @removeTodo="removeTodo($event)"
+			@changeStatus="changeStatus($event)" :todos="todos" />
+		<AddBox ref="AddBox" />
 	</div>
 </template>
 
 <script>
 import TodoList from './components/TodoList.vue'
+import AddBox from './components/AddBox.vue'
 
 export default {
 	name: 'App',
 	components: {
-		TodoList
+		TodoList,
+		AddBox
 	},
 	data() {
 		return {
 			todos: [
-				{ name: "First Todo", description: 'this is First Todo', id: 1, isChecked: false, day: 'SA' },
-				{ name: "Second Todo", description: "this is second Todo", id: 2, isChecked: false, day: 'SU' },
-				{ name: "Third Todo", description: 'this is Third Todo', id: 3, isChecked: false, day: 'MO' },
 			],
 			firstName: "Ali",
 
@@ -31,6 +32,9 @@ export default {
 		changeStatus(todoId) {
 			let todo = this.todos.find(todo => todo.id == todoId)
 			todo.isChecked = !todo.isChecked
+		},
+		addTodoModel() {
+			this.$refs.AddBox.show()
 		}
 	}
 }
@@ -44,7 +48,7 @@ export default {
 }
 
 body {
-	background-color: #fff6d8;
+	background-color: #fff4ce;
 	overflow-x: hidden;
 }
 
