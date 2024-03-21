@@ -215,8 +215,9 @@ export default {
             const currentMonth = (currentDate.getMonth() + 1).toString();
             const currentDay = currentDate.getDate().toString();
             const currentMinute = currentDate.getMinutes().toString();
+            const currentSecond = currentDate.getSeconds();
 
-            return currentYear.charAt(0) + currentMinute.charAt(0) + currentDay.charAt(0) + currentMonth.charAt(0)
+            return currentYear.charAt(0) + currentMinute.charAt(0) + currentDay.charAt(0) + currentMonth.charAt(0)+ ((currentSecond * 5).toString() + currentDay).charAt(1)
         },
         add() {
             if (this.$refs.title.value && this.$refs.descr.value) {
