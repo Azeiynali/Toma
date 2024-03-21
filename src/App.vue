@@ -87,7 +87,7 @@ export default {
 }
 
 body {
-	background-color: #fff4ce;
+	background-color: #fff7dc;
 	overflow-x: hidden;
 }
 
